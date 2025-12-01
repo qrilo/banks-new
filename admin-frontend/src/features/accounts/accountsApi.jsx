@@ -15,7 +15,7 @@ export const createAccountAPI = async ({
   balance,
   hash,
   showNewPayment,
-  expenses
+  expenses,
 }) => {
   try {
     const response = await api.post(`banks/${bankId}/accounts`, {
@@ -23,7 +23,7 @@ export const createAccountAPI = async ({
       balance,
       hash,
       showNewPayment,
-      expenses
+      expenses,
     });
     return response.data;
   } catch (error) {
@@ -46,7 +46,7 @@ export const updateAccountAPI = async ({
   balance,
   hash,
   showNewPayment,
-  expenses
+  expenses,
 }) => {
   try {
     const response = await api.put(`accounts/${accountId}`, {
@@ -54,7 +54,7 @@ export const updateAccountAPI = async ({
       balance,
       hash,
       showNewPayment,
-      expenses
+      expenses,
     });
     return response.data;
   } catch (error) {
@@ -63,21 +63,21 @@ export const updateAccountAPI = async ({
 };
 
 export const createTransactionAPI = async ({
-   accountId,
-   name,
-   amount,
-   date,
-   description,
-   type,
-   transactionType,
- }) => {
+  accountId,
+  name,
+  amount,
+  date,
+  description,
+  type,
+  transactionType,
+}) => {
   try {
     const response = await api.post(`accounts/${accountId}/transactions`, {
-      name,
+      name: "",
       amount,
       date,
       description,
-      type,
+      type: "",
       transactionType,
     });
     return response.data;
@@ -87,14 +87,14 @@ export const createTransactionAPI = async ({
 };
 
 export const updateTransactionAPI = async ({
-     transactionId,
-     name,
-     amount,
-     date,
-     description,
-     type,
-     transactionType,
-   }) => {
+  transactionId,
+  name,
+  amount,
+  date,
+  description,
+  type,
+  transactionType,
+}) => {
   try {
     const response = await api.put(`transactions/${transactionId}`, {
       name,
@@ -118,4 +118,3 @@ export const deleteTransactionAPI = async ({ transactionId }) => {
     throw error.response.data;
   }
 };
-
