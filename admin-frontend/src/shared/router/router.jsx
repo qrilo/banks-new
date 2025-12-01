@@ -10,8 +10,6 @@ import { SuperAdminMainPage } from "../../pages/SuperAdminMainPage.jsx";
 import { PageLoader } from "../components/PageLoader.jsx";
 import { NotFoundPage } from "../../pages/NotFoundPage.jsx";
 import { AccountsPage } from "../../features/accounts/pages/AccountsPage.jsx";
-import { VubAccountsPage } from "../../features/vub/pages/VubAccountsPage.jsx";
-import { VubNotificationPage } from "../../features/vub/pages/VubNotificationPage.jsx";
 import { BanksPage } from "../../features/banks/pages/BanksPage.jsx";
 import { NotificationsPage } from "../../features/notifications/pages/NotificationsPage.jsx";
 
@@ -111,22 +109,6 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["Admin"]}>
             <NotificationsPage />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "vub/:id/accounts",
-        element: (
-          <PrivateRoute allowedRoles={["Admin"]}>
-            <VubAccountsPage />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "vub/:id/notifications",
-        element: (
-          <PrivateRoute allowedRoles={["Admin"]}>
-            <VubNotificationPage />
           </PrivateRoute>
         ),
       },
