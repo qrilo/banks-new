@@ -64,20 +64,20 @@ export const updateAccountAPI = async ({
 
 export const createTransactionAPI = async ({
   accountId,
-  name,
+  name = "",
   amount,
   date,
   description,
-  type,
+  type = "",
   transactionType,
 }) => {
   try {
     const response = await api.post(`accounts/${accountId}/transactions`, {
-      name: "",
+      name,
       amount,
       date,
       description,
-      type: "",
+      type,
       transactionType,
     });
     return response.data;

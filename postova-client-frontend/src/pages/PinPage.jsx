@@ -3,12 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoaderPage } from "./LoaderPage";
 import { useBank } from "../features/banks/hooks/useBank";
+import { Header } from "../shared/components/Header";
 
 export const PinPage = () => {
-  const [bankId, setbankId] = useState(() => {
-    return localStorage.getItem("bankId") || "";
-  });
-
   const [pinCode, setPinCode] = useState("");
 
   const { data: bank, isPending: isLoadingBank } = useBank({
@@ -24,7 +21,7 @@ export const PinPage = () => {
   }, [pinCode]);
 
   const handleDigitClick = (digit) => {
-    if (pinCode.length < 6) {
+    if (pinCode.length < bank?.pinLength) {
       setPinCode(pinCode + digit);
     }
   };
@@ -40,19 +37,22 @@ export const PinPage = () => {
         justify="center"
         align="center"
         style={{
-          backgroundColor: "#fff",
-          borderRadius: 50,
-          width: 50,
-          height: 50,
+          backgroundColor: "#ffffffff",
+          height: 75,
+          flex: 1,
+          textAlign: "center",
+          borderRight: "1px solid #eaeaea",
+          borderBottom: "1px solid #eaeaea",
         }}
         onClick={() => handleDigitClick(number)}
       >
         <div
           style={{
-            width: 25,
-            height: 25,
+            width: "100%",
+            height: "100%",
             textAlign: "center",
             fontWeight: 700,
+            fontSize: 30,
           }}
         >
           {number}
@@ -66,94 +66,461 @@ export const PinPage = () => {
   }
 
   return (
-    <Flex style={{ height: "100vh" }} vertical justify="center" align="center">
-      <Flex justify="center" align="center" vertical>
-        <img src="../../george-icon.svg" width={75} />
-        <div style={{ fontWeight: 700, padding: "15px 0", fontSize: 20 }}>
-          Dobry den
-        </div>
+    <Flex vertical style={{ minHeight: "100vh" }}>
+      <Header />
 
-        <div style={{ fontSize: 18, color: "#676767ff", marginBottom: 10 }}>
-          Prihlaseni pomoci PIN kodu
-        </div>
+      <Flex vertical style={{ flex: 1 }}>
+        <Flex style={{ padding: "20px 50px" }} justify="center" vertical>
+          <Flex style={{ color: "#6d6d6dff", fontSize: 18 }} justify="center">
+            Zadajte svoj PIN.
+          </Flex>
 
-        <Row
-          gutter={10}
+          <Flex
+            style={{ height: 10, padding: "10px 0" }}
+            justify="center"
+            gap={10}
+          >
+            {Array.from({ length: bank?.pinLength }).map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  backgroundColor:
+                    i < pinCode.length ? "#767676ff" : "transparent",
+                  transition: "0.2s",
+                  border: "1px solid #767676ff",
+                }}
+              />
+            ))}
+          </Flex>
+        </Flex>
+
+        <Flex
           style={{
-            marginBottom: 15,
-            display: "flex",
-            justifyContent: "center",
+            flex: 1,
+            backgroundColor: "#808080ff",
+            color: "transparent",
           }}
         >
-          {Array.from({ length: Number(bank?.pinLength) }, (_, i) => (
-            <Col key={i}>
-              <div
-                style={{
-                  width: 35,
-                  height: 35,
-                  backgroundColor: "#fff",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontWeight: 700,
-                  fontSize: 16,
-                }}
-              >
-                <div className="disable-focus" style={{ fontSize: 20 }}>
-                  {pinCode[i] ? "•" : ""}
-                </div>
-              </div>
-            </Col>
-          ))}
-        </Row>
+          1
+        </Flex>
+      </Flex>
 
-        <div style={{ marginTop: 10 }}>
-          <Row gutter={15} style={{ marginBottom: 15 }}>
-            <Col span={8}>{renderPin(1)}</Col>
-            <Col span={8}>{renderPin(2)}</Col>
-            <Col span={8}>{renderPin(3)}</Col>
-          </Row>
+      <Flex vertical style={{ padding: "20px 0 30px", background: "#fff" }}>
+        {/* 1 ряд */}
+        <Flex justify="space-between" gap={5} style={{ width: "100%" }}>
+          {/* 1 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(1)}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              1
+            </div>
+          </Flex>
 
-          <Row gutter={15} style={{ marginBottom: 15 }}>
-            <Col span={8}>{renderPin(4)}</Col>
-            <Col span={8}>{renderPin(5)}</Col>
-            <Col span={8}>{renderPin(6)}</Col>
-          </Row>
+          {/* 2 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            vertical
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(2)}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              2
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              ABC
+            </div>
+          </Flex>
 
-          <Row gutter={15} style={{ marginBottom: 15 }}>
-            <Col span={8}>{renderPin(7)}</Col>
-            <Col span={8}>{renderPin(8)}</Col>
-            <Col span={8}>{renderPin(9)}</Col>
-          </Row>
+          {/* 3 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(3)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              3
+            </div>{" "}
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              DEF
+            </div>
+          </Flex>
+        </Flex>
 
-          <Row gutter={15} style={{ marginBottom: 15 }}>
-            <Col span={8} onClick={handleDeleteClick}>
-              <Flex
-                className="pin-button"
-                justify="center"
-                align="center"
-                style={{
-                  borderRadius: 50,
-                  width: 50,
-                  height: 50,
-                }}
-              >
-                <div
-                  style={{
-                    width: 25,
-                    height: 25,
-                    textAlign: "center",
-                    fontWeight: 700,
-                    color: "#000000E0",
-                  }}
-                >
-                  &#x2190;
-                </div>
-              </Flex>
-            </Col>
-            <Col span={8}>{renderPin(0)}</Col>
-          </Row>
-        </div>
+        {/* 2 ряд */}
+        <Flex justify="space-between" gap={5} style={{ width: "100%" }}>
+          {/* 4 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(4)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              4
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              DEF
+            </div>
+          </Flex>
+
+          {/* 5 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(5)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              5
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              JKL
+            </div>
+          </Flex>
+
+          {/* 6 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(6)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              6
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              MNO
+            </div>
+          </Flex>
+        </Flex>
+
+        {/* 3 ряд */}
+        <Flex justify="space-between" gap={5} style={{ width: "100%" }}>
+          {/* 7 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(7)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              7
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              PQRS
+            </div>
+          </Flex>
+
+          {/* 8 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(8)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              8
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              TUV
+            </div>
+          </Flex>
+
+          {/* 9 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(9)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              9
+            </div>
+            <div
+              style={{
+                color: "rgba(79, 79, 79, 0.67)",
+              }}
+            >
+              WXYZ
+            </div>
+          </Flex>
+        </Flex>
+
+        <Flex justify="space-between" gap={5} style={{ width: "100%" }}>
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(7)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              +*#
+            </div>
+          </Flex>
+
+          {/* 8 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDigitClick(0)}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              0
+            </div>
+          </Flex>
+
+          {/* 9 */}
+          <Flex
+            className="pin-button"
+            justify="center"
+            align="center"
+            style={{
+              backgroundColor: "#ffffffff",
+              height: 75,
+              flex: 1,
+              textAlign: "center",
+              borderRight: "1px solid #eaeaea",
+              borderBottom: "1px solid #eaeaea",
+            }}
+            onClick={() => handleDeleteClick()}
+            vertical
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 30,
+              }}
+            >
+              DEL
+            </div>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

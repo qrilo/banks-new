@@ -1,4 +1,3 @@
-import React from "react";
 import { Spin } from "antd";
 
 export const PageLoader = () => {
@@ -8,11 +7,12 @@ export const PageLoader = () => {
     alignItems: "center",
     height: "100vh",
     zIndex: 9999,
+    backgroundColor: "rgb(245, 104, 39)",
   };
 
   return (
     <div style={loadingPageStyle}>
-      <Spin size="large" />
+      <Spin size="small" />
     </div>
   );
 };

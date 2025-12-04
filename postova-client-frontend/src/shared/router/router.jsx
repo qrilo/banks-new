@@ -13,7 +13,8 @@ import { MainPage } from "../../pages/MainPage.jsx";
 import { TransactionPage } from "../../pages/TransactionPage.jsx";
 import { DangerPage } from "../components/DangerPage.jsx";
 import { NotificationPage } from "../../pages/NotificationPage.jsx";
-import {ContactsPage} from "../../pages/ContactsPage.jsx";
+import { ContactsPage } from "../../pages/ContactsPage.jsx";
+import { AccountPage } from "../../pages/AccountPage.jsx";
 
 const PrivateRoute = ({ children, allowedRoles = [] }) => {
   const { isAuthenticated, role } = useAuth();
@@ -103,6 +104,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <TransactionPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "accounts/:id",
+        element: (
+          <PrivateRoute>
+            <AccountPage />
           </PrivateRoute>
         ),
       },
